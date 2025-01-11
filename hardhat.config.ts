@@ -16,7 +16,7 @@ const config: HardhatUserConfig = {
       accounts: [DEPLOYER_PRIVATE_KEY || ""],
     },
   },
-  defaultNetwork: "sepolia",
+  defaultNetwork: "holesky",
 };
 
 export default config;
