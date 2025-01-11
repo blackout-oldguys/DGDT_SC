@@ -63,6 +63,7 @@ contract SpermBank {
     }
 
     mapping(address => Donor) public donors;
+    address[] public donorAddresses; // 모든 기부자의 주소를 저장하는 배열
     address public admin;
 
     modifier onlyAdmin() {
@@ -77,38 +78,41 @@ contract SpermBank {
     event DonorRegistered(address donorAddress, string name);
 
     function registerDonor(
-    string memory _name,
-    uint256 _age,
-    BloodInfo memory _bloodInfo,
-    SemenTestInfo memory _semenTestInfo,
-    InterviewInfo memory _interviewInfo,
-    PhysicalInfo memory _physicalInfo
-) public {
-    require(!donors[msg.sender].isRegistered, "Donor already registered.");
-    require(_age >= 18, "Donor must be at least 18 years old.");
+        string memory _name,
+        uint256 _age,
+        BloodInfo memory _bloodInfo,
+        SemenTestInfo memory _semenTestInfo,
+        InterviewInfo memory _interviewInfo,
+        PhysicalInfo memory _physicalInfo
+    ) public {
+        require(!donors[msg.sender].isRegistered, "Donor already registered.");
+        require(_age >= 18, "Donor must be at least 18 years old.");
 
-    Donor storage donor = donors[msg.sender];
-    donor.donorAddress = msg.sender;
-    donor.name = _name;
-    donor.age = _age;
-    donor.bloodInfo = _bloodInfo;
-    donor.semenTestInfo = _semenTestInfo;
-    donor.physicalInfo = _physicalInfo;
+        Donor storage donor = donors[msg.sender];
+        donor.donorAddress = msg.sender;
+        donor.name = _name;
+        donor.age = _age;
+        donor.bloodInfo = _bloodInfo;
+        donor.semenTestInfo = _semenTestInfo;
+        donor.physicalInfo = _physicalInfo;
 
-    // FamilyHistory 복사
-    for (uint256 i = 0; i < _interviewInfo.familyHistory.length; i++) {
-        donor.interviewInfo.familyHistory.push(_interviewInfo.familyHistory[i]);
+        // FamilyHistory 복사
+        for (uint256 i = 0; i < _interviewInfo.familyHistory.length; i++) {
+            donor.interviewInfo.familyHistory.push(
+                _interviewInfo.familyHistory[i]
+            );
+        }
+
+        donor.interviewInfo.medicalHistory = _interviewInfo.medicalHistory;
+        donor.interviewInfo.pastHistory = _interviewInfo.pastHistory;
+        donor.interviewInfo.geneticDisorders = _interviewInfo.geneticDisorders;
+
+        donor.isRegistered = true;
+
+        donorAddresses.push(msg.sender); // 새 기부자의 주소를 배열에 추가
+
+        emit DonorRegistered(msg.sender, _name);
     }
-
-    donor.interviewInfo.medicalHistory = _interviewInfo.medicalHistory;
-    donor.interviewInfo.pastHistory = _interviewInfo.pastHistory;
-    donor.interviewInfo.geneticDisorders = _interviewInfo.geneticDisorders;
-
-    donor.isRegistered = true;
-
-    emit DonorRegistered(msg.sender, _name);
-}
-
 
     function getDonorInfo(address _donorAddress)
         public
@@ -119,5 +123,14 @@ contract SpermBank {
         Donor memory donor = donors[_donorAddress];
         require(donor.isRegistered, "Donor not registered.");
         return donor;
+    }
+
+    // 모든 기부자 정보를 반환하는 함수
+    function getAllDonors() public view onlyAdmin returns (Donor[] memory) {
+        Donor[] memory allDonors = new Donor[](donorAddresses.length);
+        for (uint256 i = 0; i < donorAddresses.length; i++) {
+            allDonors[i] = donors[donorAddresses[i]];
+        }
+        return allDonors;
     }
 }

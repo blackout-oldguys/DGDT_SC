@@ -182,13 +182,27 @@ export declare namespace SpermBank {
 
 export interface SpermBankInterface extends Interface {
   getFunction(
-    nameOrSignature: "admin" | "donors" | "getDonorInfo" | "registerDonor"
+    nameOrSignature:
+      | "admin"
+      | "donorAddresses"
+      | "donors"
+      | "getAllDonors"
+      | "getDonorInfo"
+      | "registerDonor"
   ): FunctionFragment;
 
   getEvent(nameOrSignatureOrTopic: "DonorRegistered"): EventFragment;
 
   encodeFunctionData(functionFragment: "admin", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "donorAddresses",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "donors", values: [AddressLike]): string;
+  encodeFunctionData(
+    functionFragment: "getAllDonors",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "getDonorInfo",
     values: [AddressLike]
@@ -206,7 +220,15 @@ export interface SpermBankInterface extends Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "admin", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "donorAddresses",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "donors", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getAllDonors",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getDonorInfo",
     data: BytesLike
@@ -275,6 +297,8 @@ export interface SpermBank extends BaseContract {
 
   admin: TypedContractMethod<[], [string], "view">;
 
+  donorAddresses: TypedContractMethod<[arg0: BigNumberish], [string], "view">;
+
   donors: TypedContractMethod<
     [arg0: AddressLike],
     [
@@ -298,6 +322,12 @@ export interface SpermBank extends BaseContract {
         isRegistered: boolean;
       }
     ],
+    "view"
+  >;
+
+  getAllDonors: TypedContractMethod<
+    [],
+    [SpermBank.DonorStructOutput[]],
     "view"
   >;
 
@@ -328,6 +358,9 @@ export interface SpermBank extends BaseContract {
     nameOrSignature: "admin"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
+    nameOrSignature: "donorAddresses"
+  ): TypedContractMethod<[arg0: BigNumberish], [string], "view">;
+  getFunction(
     nameOrSignature: "donors"
   ): TypedContractMethod<
     [arg0: AddressLike],
@@ -354,6 +387,9 @@ export interface SpermBank extends BaseContract {
     ],
     "view"
   >;
+  getFunction(
+    nameOrSignature: "getAllDonors"
+  ): TypedContractMethod<[], [SpermBank.DonorStructOutput[]], "view">;
   getFunction(
     nameOrSignature: "getDonorInfo"
   ): TypedContractMethod<

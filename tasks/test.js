@@ -13,6 +13,8 @@ const { RPC_ENDPOINT, DEPLOYER_PRIVATE_KEY } = process.env;
 
 
 async function main() {
+  console.log("DEPLOYER_PRIVATE_KEY:", DEPLOYER_PRIVATE_KEY);
+
   const noditRpcUrl = RPC_ENDPOINT
   const provider = new ethers.JsonRpcProvider(noditRpcUrl);
 
