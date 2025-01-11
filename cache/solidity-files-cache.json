@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/ec2-user/blackout/dgdp_sc/contracts/SpermBank.sol": {
-      "lastModificationDate": 1736608347636,
-      "contentHash": "304bb7a23bf39af7a9a52904868777e1",
+      "lastModificationDate": 1736618623767,
+      "contentHash": "17319c9962b00bde385a4954cf2a80a6",
       "sourceName": "contracts/SpermBank.sol",
       "solcConfig": {
         "version": "0.8.19",
