@@ -17,36 +17,18 @@ declare module "hardhat/types/runtime" {
       name: "SpermBank",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SpermBank__factory>;
-    getContractFactory(
-      name: "SpermBank",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SpermBank__factory>;
 
     getContractAt(
       name: "SpermBank",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.SpermBank>;
-    getContractAt(
-      name: "SpermBank",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SpermBank>;
 
     deployContract(
       name: "SpermBank",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.SpermBank>;
-    deployContract(
-      name: "SpermBank",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.SpermBank>;
 
-    deployContract(
-      name: "SpermBank",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.SpermBank>;
     deployContract(
       name: "SpermBank",
       args: any[],

@@ -23,6 +23,163 @@ import type {
   TypedContractMethod,
 } from "./common";
 
+export declare namespace SpermBank {
+  export type BloodInfoStruct = {
+    bloodType: string;
+    hav: boolean;
+    hbv: boolean;
+    hcv: boolean;
+    venerealDisease: boolean;
+  };
+
+  export type BloodInfoStructOutput = [
+    bloodType: string,
+    hav: boolean,
+    hbv: boolean,
+    hcv: boolean,
+    venerealDisease: boolean
+  ] & {
+    bloodType: string;
+    hav: boolean;
+    hbv: boolean;
+    hcv: boolean;
+    venerealDisease: boolean;
+  };
+
+  export type SemenTestInfoStruct = {
+    semenVolume: BigNumberish;
+    spermCount: BigNumberish;
+    spermMotility: string;
+    spermShape: string;
+  };
+
+  export type SemenTestInfoStructOutput = [
+    semenVolume: bigint,
+    spermCount: bigint,
+    spermMotility: string,
+    spermShape: string
+  ] & {
+    semenVolume: bigint;
+    spermCount: bigint;
+    spermMotility: string;
+    spermShape: string;
+  };
+
+  export type MedicalHistoryStruct = {
+    mentalRetardation: boolean;
+    mentalIllness: boolean;
+    epilepsy: boolean;
+    otherConditions: string[];
+  };
+
+  export type MedicalHistoryStructOutput = [
+    mentalRetardation: boolean,
+    mentalIllness: boolean,
+    epilepsy: boolean,
+    otherConditions: string[]
+  ] & {
+    mentalRetardation: boolean;
+    mentalIllness: boolean;
+    epilepsy: boolean;
+    otherConditions: string[];
+  };
+
+  export type PastHistoryStruct = {
+    drugUse: boolean;
+    otherConditions: string[];
+  };
+
+  export type PastHistoryStructOutput = [
+    drugUse: boolean,
+    otherConditions: string[]
+  ] & { drugUse: boolean; otherConditions: string[] };
+
+  export type FamilyHistoryStruct = { relation: string; condition: string };
+
+  export type FamilyHistoryStructOutput = [
+    relation: string,
+    condition: string
+  ] & { relation: string; condition: string };
+
+  export type InterviewInfoStruct = {
+    medicalHistory: SpermBank.MedicalHistoryStruct;
+    pastHistory: SpermBank.PastHistoryStruct;
+    geneticDisorders: string[];
+    familyHistory: SpermBank.FamilyHistoryStruct[];
+  };
+
+  export type InterviewInfoStructOutput = [
+    medicalHistory: SpermBank.MedicalHistoryStructOutput,
+    pastHistory: SpermBank.PastHistoryStructOutput,
+    geneticDisorders: string[],
+    familyHistory: SpermBank.FamilyHistoryStructOutput[]
+  ] & {
+    medicalHistory: SpermBank.MedicalHistoryStructOutput;
+    pastHistory: SpermBank.PastHistoryStructOutput;
+    geneticDisorders: string[];
+    familyHistory: SpermBank.FamilyHistoryStructOutput[];
+  };
+
+  export type PhysicalInfoStruct = {
+    height: BigNumberish;
+    weight: BigNumberish;
+    bodyType: string;
+    ethnicity: string;
+    personality: string;
+    education: string;
+    religion: string;
+  };
+
+  export type PhysicalInfoStructOutput = [
+    height: bigint,
+    weight: bigint,
+    bodyType: string,
+    ethnicity: string,
+    personality: string,
+    education: string,
+    religion: string
+  ] & {
+    height: bigint;
+    weight: bigint;
+    bodyType: string;
+    ethnicity: string;
+    personality: string;
+    education: string;
+    religion: string;
+  };
+
+  export type DonorStruct = {
+    donorAddress: AddressLike;
+    name: string;
+    age: BigNumberish;
+    bloodInfo: SpermBank.BloodInfoStruct;
+    semenTestInfo: SpermBank.SemenTestInfoStruct;
+    interviewInfo: SpermBank.InterviewInfoStruct;
+    physicalInfo: SpermBank.PhysicalInfoStruct;
+    isRegistered: boolean;
+  };
+
+  export type DonorStructOutput = [
+    donorAddress: string,
+    name: string,
+    age: bigint,
+    bloodInfo: SpermBank.BloodInfoStructOutput,
+    semenTestInfo: SpermBank.SemenTestInfoStructOutput,
+    interviewInfo: SpermBank.InterviewInfoStructOutput,
+    physicalInfo: SpermBank.PhysicalInfoStructOutput,
+    isRegistered: boolean
+  ] & {
+    donorAddress: string;
+    name: string;
+    age: bigint;
+    bloodInfo: SpermBank.BloodInfoStructOutput;
+    semenTestInfo: SpermBank.SemenTestInfoStructOutput;
+    interviewInfo: SpermBank.InterviewInfoStructOutput;
+    physicalInfo: SpermBank.PhysicalInfoStructOutput;
+    isRegistered: boolean;
+  };
+}
+
 export interface SpermBankInterface extends Interface {
   getFunction(
     nameOrSignature: "admin" | "donors" | "getDonorInfo" | "registerDonor"
@@ -38,7 +195,14 @@ export interface SpermBankInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "registerDonor",
-    values: [string, BigNumberish, string, string]
+    values: [
+      string,
+      BigNumberish,
+      SpermBank.BloodInfoStruct,
+      SpermBank.SemenTestInfoStruct,
+      SpermBank.InterviewInfoStruct,
+      SpermBank.PhysicalInfoStruct
+    ]
   ): string;
 
   decodeFunctionResult(functionFragment: "admin", data: BytesLike): Result;
@@ -114,12 +278,23 @@ export interface SpermBank extends BaseContract {
   donors: TypedContractMethod<
     [arg0: AddressLike],
     [
-      [string, string, bigint, string, string, boolean] & {
+      [
+        string,
+        string,
+        bigint,
+        SpermBank.BloodInfoStructOutput,
+        SpermBank.SemenTestInfoStructOutput,
+        SpermBank.InterviewInfoStructOutput,
+        SpermBank.PhysicalInfoStructOutput,
+        boolean
+      ] & {
         donorAddress: string;
         name: string;
         age: bigint;
-        bloodType: string;
-        geneticInfoHash: string;
+        bloodInfo: SpermBank.BloodInfoStructOutput;
+        semenTestInfo: SpermBank.SemenTestInfoStructOutput;
+        interviewInfo: SpermBank.InterviewInfoStructOutput;
+        physicalInfo: SpermBank.PhysicalInfoStructOutput;
         isRegistered: boolean;
       }
     ],
@@ -128,7 +303,7 @@ export interface SpermBank extends BaseContract {
 
   getDonorInfo: TypedContractMethod<
     [_donorAddress: AddressLike],
-    [[string, bigint, string, string]],
+    [SpermBank.DonorStructOutput],
     "view"
   >;
 
@@ -136,8 +311,10 @@ export interface SpermBank extends BaseContract {
     [
       _name: string,
       _age: BigNumberish,
-      _bloodType: string,
-      _geneticInfoHash: string
+      _bloodInfo: SpermBank.BloodInfoStruct,
+      _semenTestInfo: SpermBank.SemenTestInfoStruct,
+      _interviewInfo: SpermBank.InterviewInfoStruct,
+      _physicalInfo: SpermBank.PhysicalInfoStruct
     ],
     [void],
     "nonpayable"
@@ -155,12 +332,23 @@ export interface SpermBank extends BaseContract {
   ): TypedContractMethod<
     [arg0: AddressLike],
     [
-      [string, string, bigint, string, string, boolean] & {
+      [
+        string,
+        string,
+        bigint,
+        SpermBank.BloodInfoStructOutput,
+        SpermBank.SemenTestInfoStructOutput,
+        SpermBank.InterviewInfoStructOutput,
+        SpermBank.PhysicalInfoStructOutput,
+        boolean
+      ] & {
         donorAddress: string;
         name: string;
         age: bigint;
-        bloodType: string;
-        geneticInfoHash: string;
+        bloodInfo: SpermBank.BloodInfoStructOutput;
+        semenTestInfo: SpermBank.SemenTestInfoStructOutput;
+        interviewInfo: SpermBank.InterviewInfoStructOutput;
+        physicalInfo: SpermBank.PhysicalInfoStructOutput;
         isRegistered: boolean;
       }
     ],
@@ -170,7 +358,7 @@ export interface SpermBank extends BaseContract {
     nameOrSignature: "getDonorInfo"
   ): TypedContractMethod<
     [_donorAddress: AddressLike],
-    [[string, bigint, string, string]],
+    [SpermBank.DonorStructOutput],
     "view"
   >;
   getFunction(
@@ -179,8 +367,10 @@ export interface SpermBank extends BaseContract {
     [
       _name: string,
       _age: BigNumberish,
-      _bloodType: string,
-      _geneticInfoHash: string
+      _bloodInfo: SpermBank.BloodInfoStruct,
+      _semenTestInfo: SpermBank.SemenTestInfoStruct,
+      _interviewInfo: SpermBank.InterviewInfoStruct,
+      _physicalInfo: SpermBank.PhysicalInfoStruct
     ],
     [void],
     "nonpayable"
