@@ -11,7 +11,7 @@ contract SpermBank {
     }
 
     struct SemenTestInfo {
-        uint256 semenVolume; // in milliliters
+        uint256 semenVolume; // in microliter
         uint256 spermCount;  // per milliliter
         string spermMotility;
         string spermShape;

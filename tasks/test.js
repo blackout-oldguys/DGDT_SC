@@ -19,7 +19,7 @@ async function main() {
   const privateKey = DEPLOYER_PRIVATE_KEY;
   const wallet = new ethers.Wallet(privateKey, provider);
 
-  const contractAddress = "0xb237d91785ac646f8883939C61Bd7aD3b434abe2";
+  const contractAddress = "0x467FB975D455181eC75307Df3af64E408bE2ACC1";
 
   const spermBank = new ethers.Contract(contractAddress, abi, wallet);
 

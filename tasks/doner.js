@@ -19,7 +19,7 @@ async function main() {
   const privateKey = DEPLOYER_PRIVATE_KEY;
   const wallet = new ethers.Wallet(privateKey, provider);
 
-  const contractAddress = "0xb237d91785ac646f8883939C61Bd7aD3b434abe2";
+  const contractAddress = "0x467FB975D455181eC75307Df3af64E408bE2ACC1";
 
   const spermBank = new ethers.Contract(contractAddress, abi, wallet);
 
@@ -29,7 +29,7 @@ async function main() {
 
   // 새로운 기증자 등록
   const donorData = {
-    name: "Alice",
+    name: "donerver1",
     age: 30,
     bloodInfo: {
       bloodType: "AB",
@@ -39,7 +39,7 @@ async function main() {
       venerealDisease: false,
     },
     semenTestInfo: {
-      semenVolume: 2.5,
+      semenVolume: 2500,
       spermCount: 15000000,
       spermMotility: "Normal",
       spermShape: "Normal",
@@ -71,7 +71,8 @@ async function main() {
       religion: "None",
     },
   };
-  
+
+
   const tx = await spermBank.registerDonor(
     donorData.name,
     donorData.age,
