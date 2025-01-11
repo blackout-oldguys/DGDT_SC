@@ -16,5 +16,12 @@
     "url": "https://github.com/blackout-oldguys/DGDT_SC/issues"
   },
   "homepage": "https://github.com/blackout-oldguys/DGDT_SC#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^16.4.7",
+    "hardhat": "^2.22.17",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
 }
