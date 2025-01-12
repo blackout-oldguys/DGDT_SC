@@ -1,7 +1,7 @@
 # 뒷방늙은이들
 ## Project Description
 
-The Sperm Bank Management Platform is a blockchain-based solution designed to revolutionize the management of sperm donation, storage, and distribution processes. By integrating cutting-edge technologies such as blockchain, smart contracts, and encrypted data storage, this platform ensures transparency, security, and efficiency in all aspects of sperm bank operations.
+The Sperm Bank Management Platform is a blockchain-based solution designed to revolutionize the management of sperm donation, storage, and distribution processes. This platform ensures transparency, security, and efficiency in all aspects of sperm bank operations.
 
 The platform aims to address the critical challenges of privacy, ethical compliance, and data integrity in reproductive health services, providing a robust system for donors, recipients, and medical institutions.
 
