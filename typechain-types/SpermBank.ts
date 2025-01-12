@@ -150,8 +150,6 @@ export declare namespace SpermBank {
 
   export type DonorStruct = {
     donorAddress: AddressLike;
-    name: string;
-    age: BigNumberish;
     bloodInfo: SpermBank.BloodInfoStruct;
     semenTestInfo: SpermBank.SemenTestInfoStruct;
     interviewInfo: SpermBank.InterviewInfoStruct;
@@ -161,8 +159,6 @@ export declare namespace SpermBank {
 
   export type DonorStructOutput = [
     donorAddress: string,
-    name: string,
-    age: bigint,
     bloodInfo: SpermBank.BloodInfoStructOutput,
     semenTestInfo: SpermBank.SemenTestInfoStructOutput,
     interviewInfo: SpermBank.InterviewInfoStructOutput,
@@ -170,30 +166,72 @@ export declare namespace SpermBank {
     isRegistered: boolean
   ] & {
     donorAddress: string;
-    name: string;
-    age: bigint;
     bloodInfo: SpermBank.BloodInfoStructOutput;
     semenTestInfo: SpermBank.SemenTestInfoStructOutput;
     interviewInfo: SpermBank.InterviewInfoStructOutput;
     physicalInfo: SpermBank.PhysicalInfoStructOutput;
     isRegistered: boolean;
   };
+
+  export type DonationStruct = {
+    id: BigNumberish;
+    donorAddress: AddressLike;
+    timestamp: BigNumberish;
+  };
+
+  export type DonationStructOutput = [
+    id: bigint,
+    donorAddress: string,
+    timestamp: bigint
+  ] & { id: bigint; donorAddress: string; timestamp: bigint };
+
+  export type ReceiverStruct = {
+    receiverAddress: AddressLike;
+    donorAddress: AddressLike;
+    timestamp: BigNumberish;
+  };
+
+  export type ReceiverStructOutput = [
+    receiverAddress: string,
+    donorAddress: string,
+    timestamp: bigint
+  ] & { receiverAddress: string; donorAddress: string; timestamp: bigint };
 }
 
 export interface SpermBankInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "admin"
+      | "donateSperm"
+      | "donations"
       | "donorAddresses"
       | "donors"
       | "getAllDonors"
+      | "getDonationHistory"
       | "getDonorInfo"
+      | "getReceiverByDonorAddress"
+      | "getReceiverHistory"
+      | "receivers"
       | "registerDonor"
+      | "spermReceive"
   ): FunctionFragment;
 
-  getEvent(nameOrSignatureOrTopic: "DonorRegistered"): EventFragment;
+  getEvent(
+    nameOrSignatureOrTopic:
+      | "DonationReceived"
+      | "DonorRegistered"
+      | "SpermReceived"
+  ): EventFragment;
 
   encodeFunctionData(functionFragment: "admin", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "donateSperm",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "donations",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "donorAddresses",
     values: [BigNumberish]
@@ -204,22 +242,45 @@ export interface SpermBankInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "getDonationHistory",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "getDonorInfo",
     values: [AddressLike]
   ): string;
   encodeFunctionData(
+    functionFragment: "getReceiverByDonorAddress",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getReceiverHistory",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "receivers",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "registerDonor",
     values: [
-      string,
-      BigNumberish,
       SpermBank.BloodInfoStruct,
       SpermBank.SemenTestInfoStruct,
       SpermBank.InterviewInfoStruct,
       SpermBank.PhysicalInfoStruct
     ]
   ): string;
+  encodeFunctionData(
+    functionFragment: "spermReceive",
+    values: [AddressLike, AddressLike]
+  ): string;
 
   decodeFunctionResult(functionFragment: "admin", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "donateSperm",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "donations", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "donorAddresses",
     data: BytesLike
@@ -230,21 +291,69 @@ export interface SpermBankInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getDonationHistory",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getDonorInfo",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getReceiverByDonorAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getReceiverHistory",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "receivers", data: BytesLike): Result;
+  decodeFunctionResult(
     functionFragment: "registerDonor",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "spermReceive",
     data: BytesLike
   ): Result;
 }
 
+export namespace DonationReceivedEvent {
+  export type InputTuple = [
+    donationId: BigNumberish,
+    donorAddress: AddressLike
+  ];
+  export type OutputTuple = [donationId: bigint, donorAddress: string];
+  export interface OutputObject {
+    donationId: bigint;
+    donorAddress: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export namespace DonorRegisteredEvent {
-  export type InputTuple = [donorAddress: AddressLike, name: string];
-  export type OutputTuple = [donorAddress: string, name: string];
+  export type InputTuple = [donorAddress: AddressLike];
+  export type OutputTuple = [donorAddress: string];
   export interface OutputObject {
     donorAddress: string;
-    name: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace SpermReceivedEvent {
+  export type InputTuple = [
+    receiverAddress: AddressLike,
+    donorAddress: AddressLike
+  ];
+  export type OutputTuple = [receiverAddress: string, donorAddress: string];
+  export interface OutputObject {
+    receiverAddress: string;
+    donorAddress: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -297,6 +406,20 @@ export interface SpermBank extends BaseContract {
 
   admin: TypedContractMethod<[], [string], "view">;
 
+  donateSperm: TypedContractMethod<[], [void], "nonpayable">;
+
+  donations: TypedContractMethod<
+    [arg0: BigNumberish],
+    [
+      [bigint, string, bigint] & {
+        id: bigint;
+        donorAddress: string;
+        timestamp: bigint;
+      }
+    ],
+    "view"
+  >;
+
   donorAddresses: TypedContractMethod<[arg0: BigNumberish], [string], "view">;
 
   donors: TypedContractMethod<
@@ -304,8 +427,6 @@ export interface SpermBank extends BaseContract {
     [
       [
         string,
-        string,
-        bigint,
         SpermBank.BloodInfoStructOutput,
         SpermBank.SemenTestInfoStructOutput,
         SpermBank.InterviewInfoStructOutput,
@@ -313,8 +434,6 @@ export interface SpermBank extends BaseContract {
         boolean
       ] & {
         donorAddress: string;
-        name: string;
-        age: bigint;
         bloodInfo: SpermBank.BloodInfoStructOutput;
         semenTestInfo: SpermBank.SemenTestInfoStructOutput;
         interviewInfo: SpermBank.InterviewInfoStructOutput;
@@ -331,21 +450,55 @@ export interface SpermBank extends BaseContract {
     "view"
   >;
 
+  getDonationHistory: TypedContractMethod<
+    [],
+    [SpermBank.DonationStructOutput[]],
+    "view"
+  >;
+
   getDonorInfo: TypedContractMethod<
     [_donorAddress: AddressLike],
     [SpermBank.DonorStructOutput],
     "view"
   >;
 
+  getReceiverByDonorAddress: TypedContractMethod<
+    [_donorAddress: AddressLike],
+    [SpermBank.ReceiverStructOutput[]],
+    "view"
+  >;
+
+  getReceiverHistory: TypedContractMethod<
+    [],
+    [SpermBank.ReceiverStructOutput[]],
+    "view"
+  >;
+
+  receivers: TypedContractMethod<
+    [arg0: BigNumberish],
+    [
+      [string, string, bigint] & {
+        receiverAddress: string;
+        donorAddress: string;
+        timestamp: bigint;
+      }
+    ],
+    "view"
+  >;
+
   registerDonor: TypedContractMethod<
     [
-      _name: string,
-      _age: BigNumberish,
       _bloodInfo: SpermBank.BloodInfoStruct,
       _semenTestInfo: SpermBank.SemenTestInfoStruct,
       _interviewInfo: SpermBank.InterviewInfoStruct,
       _physicalInfo: SpermBank.PhysicalInfoStruct
     ],
+    [void],
+    "nonpayable"
+  >;
+
+  spermReceive: TypedContractMethod<
+    [_receiver: AddressLike, _donorAddress: AddressLike],
     [void],
     "nonpayable"
   >;
@@ -358,6 +511,22 @@ export interface SpermBank extends BaseContract {
     nameOrSignature: "admin"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
+    nameOrSignature: "donateSperm"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "donations"
+  ): TypedContractMethod<
+    [arg0: BigNumberish],
+    [
+      [bigint, string, bigint] & {
+        id: bigint;
+        donorAddress: string;
+        timestamp: bigint;
+      }
+    ],
+    "view"
+  >;
+  getFunction(
     nameOrSignature: "donorAddresses"
   ): TypedContractMethod<[arg0: BigNumberish], [string], "view">;
   getFunction(
@@ -367,8 +536,6 @@ export interface SpermBank extends BaseContract {
     [
       [
         string,
-        string,
-        bigint,
         SpermBank.BloodInfoStructOutput,
         SpermBank.SemenTestInfoStructOutput,
         SpermBank.InterviewInfoStructOutput,
@@ -376,8 +543,6 @@ export interface SpermBank extends BaseContract {
         boolean
       ] & {
         donorAddress: string;
-        name: string;
-        age: bigint;
         bloodInfo: SpermBank.BloodInfoStructOutput;
         semenTestInfo: SpermBank.SemenTestInfoStructOutput;
         interviewInfo: SpermBank.InterviewInfoStructOutput;
@@ -391,6 +556,9 @@ export interface SpermBank extends BaseContract {
     nameOrSignature: "getAllDonors"
   ): TypedContractMethod<[], [SpermBank.DonorStructOutput[]], "view">;
   getFunction(
+    nameOrSignature: "getDonationHistory"
+  ): TypedContractMethod<[], [SpermBank.DonationStructOutput[]], "view">;
+  getFunction(
     nameOrSignature: "getDonorInfo"
   ): TypedContractMethod<
     [_donorAddress: AddressLike],
@@ -398,11 +566,32 @@ export interface SpermBank extends BaseContract {
     "view"
   >;
   getFunction(
+    nameOrSignature: "getReceiverByDonorAddress"
+  ): TypedContractMethod<
+    [_donorAddress: AddressLike],
+    [SpermBank.ReceiverStructOutput[]],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "getReceiverHistory"
+  ): TypedContractMethod<[], [SpermBank.ReceiverStructOutput[]], "view">;
+  getFunction(
+    nameOrSignature: "receivers"
+  ): TypedContractMethod<
+    [arg0: BigNumberish],
+    [
+      [string, string, bigint] & {
+        receiverAddress: string;
+        donorAddress: string;
+        timestamp: bigint;
+      }
+    ],
+    "view"
+  >;
+  getFunction(
     nameOrSignature: "registerDonor"
   ): TypedContractMethod<
     [
-      _name: string,
-      _age: BigNumberish,
       _bloodInfo: SpermBank.BloodInfoStruct,
       _semenTestInfo: SpermBank.SemenTestInfoStruct,
       _interviewInfo: SpermBank.InterviewInfoStruct,
@@ -411,7 +600,21 @@ export interface SpermBank extends BaseContract {
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "spermReceive"
+  ): TypedContractMethod<
+    [_receiver: AddressLike, _donorAddress: AddressLike],
+    [void],
+    "nonpayable"
+  >;
 
+  getEvent(
+    key: "DonationReceived"
+  ): TypedContractEvent<
+    DonationReceivedEvent.InputTuple,
+    DonationReceivedEvent.OutputTuple,
+    DonationReceivedEvent.OutputObject
+  >;
   getEvent(
     key: "DonorRegistered"
   ): TypedContractEvent<
@@ -419,9 +622,27 @@ export interface SpermBank extends BaseContract {
     DonorRegisteredEvent.OutputTuple,
     DonorRegisteredEvent.OutputObject
   >;
+  getEvent(
+    key: "SpermReceived"
+  ): TypedContractEvent<
+    SpermReceivedEvent.InputTuple,
+    SpermReceivedEvent.OutputTuple,
+    SpermReceivedEvent.OutputObject
+  >;
 
   filters: {
-    "DonorRegistered(address,string)": TypedContractEvent<
+    "DonationReceived(uint256,address)": TypedContractEvent<
+      DonationReceivedEvent.InputTuple,
+      DonationReceivedEvent.OutputTuple,
+      DonationReceivedEvent.OutputObject
+    >;
+    DonationReceived: TypedContractEvent<
+      DonationReceivedEvent.InputTuple,
+      DonationReceivedEvent.OutputTuple,
+      DonationReceivedEvent.OutputObject
+    >;
+
+    "DonorRegistered(address)": TypedContractEvent<
       DonorRegisteredEvent.InputTuple,
       DonorRegisteredEvent.OutputTuple,
       DonorRegisteredEvent.OutputObject
@@ -430,6 +651,17 @@ export interface SpermBank extends BaseContract {
       DonorRegisteredEvent.InputTuple,
       DonorRegisteredEvent.OutputTuple,
       DonorRegisteredEvent.OutputObject
+    >;
+
+    "SpermReceived(address,address)": TypedContractEvent<
+      SpermReceivedEvent.InputTuple,
+      SpermReceivedEvent.OutputTuple,
+      SpermReceivedEvent.OutputObject
+    >;
+    SpermReceived: TypedContractEvent<
+      SpermReceivedEvent.InputTuple,
+      SpermReceivedEvent.OutputTuple,
+      SpermReceivedEvent.OutputObject
     >;
   };
 }
