@@ -8,9 +8,9 @@ const abi = abiJson.abi;
 
 dotenv.config({ path: "../.env" });
 
-const { RPC_ENDPOINT, DEPLOYER_PRIVATE_KEY, key2, key3, key4, contractaddr } = process.env;
+const { RPC_ENDPOINT, DEPLOYER_PRIVATE_KEY, key1,key2, key3, key4,key5,key6,key7, contractaddr } = process.env;
 
-let keys = [DEPLOYER_PRIVATE_KEY, key2, key3, key4];
+let keys = [key1, key2, key3, key4,key5,key6,key7];
 
 const donorData1 = {
   bloodInfo: {
@@ -180,7 +180,134 @@ const donorData4 = {
   },
 };
 
-let donors = [donorData1, donorData2, donorData3, donorData4];
+const donorData5 = {
+  bloodInfo: {
+    bloodType: "B",
+    hav: false,
+    hbv: true,
+    hcv: false,
+    venerealDisease: true,
+  },
+  semenTestInfo: {
+    semenVolume: 2800,
+    spermCount: 18000000,
+    spermMotility: "Good",
+    spermShape: "Abnormal",
+  },
+  interviewInfo: {
+    medicalHistory: {
+      mentalRetardation: true,
+      mentalIllness: false,
+      epilepsy: false,
+      otherConditions: ["Migraines"],
+    },
+    pastHistory: {
+      drugUse: false,
+      otherConditions: ["Surgery"],
+    },
+    geneticDisorders: ["Thalassemia"],
+    familyHistory: [
+      { relation: "father", condition: "Hypertension" },
+      { relation: "mother", condition: "Diabetes" },
+    ],
+  },
+  physicalInfo: {
+    height: 180,
+    weight: 75,
+    bodyType: "Athletic",
+    ethnicity: "Asian",
+    personality: "Extroverted",
+    education: "Bachelor",
+    religion: "Buddhism",
+  },
+};
+
+const donorData6 = {
+  bloodInfo: {
+    bloodType: "O",
+    hav: false,
+    hbv: false,
+    hcv: false,
+    venerealDisease: false,
+  },
+  semenTestInfo: {
+    semenVolume: 3200,
+    spermCount: 22000000,
+    spermMotility: "Excellent",
+    spermShape: "Normal",
+  },
+  interviewInfo: {
+    medicalHistory: {
+      mentalRetardation: false,
+      mentalIllness: false,
+      epilepsy: true,
+      otherConditions: ["Allergy"],
+    },
+    pastHistory: {
+      drugUse: true,
+      otherConditions: ["Alcohol Use"],
+    },
+    geneticDisorders: ["Cystic Fibrosis"],
+    familyHistory: [
+      { relation: "father", condition: "Parkinson's" },
+      { relation: "mother", condition: "Arthritis" },
+    ],
+  },
+  physicalInfo: {
+    height: 185,
+    weight: 80,
+    bodyType: "Muscular",
+    ethnicity: "Hispanic",
+    personality: "Charismatic",
+    education: "PhD",
+    religion: "Islam",
+  },
+};
+
+const donorData7 = {
+  bloodInfo: {
+    bloodType: "AB",
+    hav: true,
+    hbv: true,
+    hcv: false,
+    venerealDisease: false,
+  },
+  semenTestInfo: {
+    semenVolume: 2500,
+    spermCount: 15000000,
+    spermMotility: "Average",
+    spermShape: "Normal",
+  },
+  interviewInfo: {
+    medicalHistory: {
+      mentalRetardation: false,
+      mentalIllness: false,
+      epilepsy: false,
+      otherConditions: ["Anemia"],
+    },
+    pastHistory: {
+      drugUse: false,
+      otherConditions: ["Minor Surgery"],
+    },
+    geneticDisorders: ["Sickle Cell Anemia"],
+    familyHistory: [
+      { relation: "father", condition: "Stroke" },
+      { relation: "mother", condition: "Thyroid Disorder" },
+    ],
+  },
+  physicalInfo: {
+    height: 178,
+    weight: 72,
+    bodyType: "Average",
+    ethnicity: "African",
+    personality: "Optimistic",
+    education: "University",
+    religion: "None",
+  },
+};
+
+
+let donors = [donorData1, donorData2, donorData3, ,donorData4,donorData5,donorData6,donorData7];
 
 async function main() {
   const noditRpcUrl = RPC_ENDPOINT;

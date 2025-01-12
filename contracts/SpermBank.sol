@@ -96,7 +96,7 @@ contract SpermBank {
         InterviewInfo memory _interviewInfo,
         PhysicalInfo memory _physicalInfo
     ) public {
-        require(!donors[msg.sender].isRegistered, "Donor already registered.");
+        // require(!donors[msg.sender].isRegistered, "Donor already registered.");
 
         Donor storage donor = donors[msg.sender];
         donor.donorAddress = msg.sender;
