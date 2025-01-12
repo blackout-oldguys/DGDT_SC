@@ -1,10 +1,9 @@
-# Smart Contract Development with Hardhat and Nodit
-
+# 뒷방늙은이들
 ## Project Description
 
-This project aims to develop, test, and deploy smart contracts efficiently using [Hardhat](https://hardhat.org/) as the primary development framework. Additionally, we utilize [Nodit](https://nodit.io/) for real-time monitoring and management of smart contract activities post-deployment.
+The Sperm Bank Management Platform is a blockchain-based solution designed to revolutionize the management of sperm donation, storage, and distribution processes. By integrating cutting-edge technologies such as blockchain, smart contracts, and encrypted data storage, this platform ensures transparency, security, and efficiency in all aspects of sperm bank operations.
 
-The goal is to ensure secure and scalable contract deployment on Ethereum-compatible blockchains while leveraging Nodit's capabilities for analytics and insights. This setup provides developers with a streamlined process for building decentralized applications (DApps) with robust backend support.
+The platform aims to address the critical challenges of privacy, ethical compliance, and data integrity in reproductive health services, providing a robust system for donors, recipients, and medical institutions.
 
 ---
 
